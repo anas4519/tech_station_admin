@@ -1,0 +1,44 @@
+<div class="categories-page">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Categories</h1>
+            <span class="page-subtitle">Manage device categories</span>
+        </div>
+    </div>
+
+    @if (error) {
+    <div class="error-banner">{{ error }}</div>
+    }
+
+    <!-- Add Category -->
+    <div class="add-section">
+        <form (ngSubmit)="addCategory()" class="add-form">
+            <input [(ngModel)]="newCategoryName" name="newCategory" placeholder="Enter new category name..."
+                class="add-input" required />
+            <button type="submit" class="btn-add" [disabled]="saving || !newCategoryName.trim()">
+                {{ saving ? 'Adding...' : '+ Add Category' }}
+            </button>
+        </form>
+    </div>
+
+    @if (loading) {
+    <div class="loading">Loading categories...</div>
+    }
+
+    @if (!loading) {
+    <div class="categories-list">
+        @for (cat of categories; track cat.id) {
+        <div class="category-item">
+            <span class="category-name">{{ cat.name }}</span>
+            <button class="btn-delete" (click)="deleteCategory(cat)">Delete</button>
+        </div>
+        } @empty {
+        <div class="empty-state">
+            <p>No categories found.</p>
+            <p class="hint">Create a <code>categories</code> table in Supabase with columns: <code>id</code> (uuid),
+                <code>name</code> (text), <code>created_at</code> (timestamptz).</p>
+        </div>
+        }
+    </div>
+    }
+</div>

@@ -1,0 +1,241 @@
+<div class="form-page">
+    <div class="page-header">
+        <a routerLink="/devices" class="back-link">← Back to Devices</a>
+        <h1 class="page-title">{{ isEdit ? 'Edit Device' : 'Add New Device' }}</h1>
+    </div>
+
+    @if (loading) {
+    <div class="loading">Loading device data...</div>
+    }
+
+    @if (error) {
+    <div class="error-banner">{{ error }}</div>
+    }
+
+    @if (!loading) {
+    <form (ngSubmit)="onSubmit()" class="device-form">
+
+        <!-- ── Basic Info ── -->
+        <fieldset class="form-section">
+            <legend>Basic Information</legend>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input id="name" [(ngModel)]="device.name" name="name" required placeholder="e.g. iPhone 15 Pro" />
+                </div>
+                <div class="form-group">
+                    <label for="brand">Brand *</label>
+                    <input id="brand" [(ngModel)]="device.brand" name="brand" required placeholder="e.g. Apple" />
+                </div>
+                <div class="form-group">
+                    <label for="category">Category *</label>
+                    @if (categories.length > 0) {
+                    <select id="category" [(ngModel)]="device.category" name="category" required>
+                        <option value="" disabled>Select category</option>
+                        @for (cat of categories; track cat.id) {
+                        <option [value]="cat.name">{{ cat.name }}</option>
+                        }
+                    </select>
+                    } @else {
+                    <input id="category" [(ngModel)]="device.category" name="category" required
+                        placeholder="e.g. Flagship" />
+                    }
+                </div>
+                <div class="form-group">
+                    <label for="price">Price ($)</label>
+                    <input id="price" type="number" [(ngModel)]="device.price" name="price" placeholder="999" />
+                </div>
+                <div class="form-group">
+                    <label for="releaseDate">Release Date</label>
+                    <input id="releaseDate" [(ngModel)]="device.release_date" name="releaseDate"
+                        placeholder="e.g. September 2024" />
+                </div>
+                <div class="form-group">
+                    <label for="imageUrl">Main Image URL</label>
+                    <input id="imageUrl" [(ngModel)]="device.image_url" name="imageUrl" placeholder="https://..." />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="shortDesc">Short Description</label>
+                <textarea id="shortDesc" [(ngModel)]="device.short_description" name="shortDesc" rows="2"
+                    placeholder="A brief description..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="imageUrls">Additional Image URLs (one per line)</label>
+                <textarea id="imageUrls" [(ngModel)]="imageUrlsStr" name="imageUrls" rows="3"
+                    placeholder="https://...&#10;https://..."></textarea>
+            </div>
+            <div class="form-group checkbox-group">
+                <label>
+                    <input type="checkbox" [(ngModel)]="device.is_featured" name="isFeatured" />
+                    Featured Device
+                </label>
+            </div>
+        </fieldset>
+
+        <!-- ── Specs ── -->
+        <fieldset class="form-section">
+            <legend>Specifications</legend>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="processor">Processor</label>
+                    <input id="processor" [(ngModel)]="device.processor" name="processor" placeholder="e.g. A17 Pro" />
+                </div>
+                <div class="form-group">
+                    <label for="ram">RAM</label>
+                    <input id="ram" [(ngModel)]="device.ram" name="ram" placeholder="e.g. 8GB" />
+                </div>
+                <div class="form-group">
+                    <label for="storage">Storage</label>
+                    <input id="storage" [(ngModel)]="device.storage" name="storage"
+                        placeholder="e.g. 256GB / 512GB / 1TB" />
+                </div>
+                <div class="form-group">
+                    <label for="display">Display</label>
+                    <input id="display" [(ngModel)]="device.display" name="display"
+                        placeholder="e.g. Super Retina XDR OLED" />
+                </div>
+                <div class="form-group">
+                    <label for="displaySize">Display Size</label>
+                    <input id="displaySize" [(ngModel)]="device.display_size" name="displaySize"
+                        placeholder='e.g. 6.1"' />
+                </div>
+                <div class="form-group">
+                    <label for="displayRes">Display Resolution</label>
+                    <input id="displayRes" [(ngModel)]="device.display_resolution" name="displayRes"
+                        placeholder="e.g. 2556 x 1179" />
+                </div>
+                <div class="form-group">
+                    <label for="refreshRate">Refresh Rate</label>
+                    <input id="refreshRate" [(ngModel)]="device.refresh_rate" name="refreshRate"
+                        placeholder="e.g. 120Hz (ProMotion)" />
+                </div>
+                <div class="form-group">
+                    <label for="battery">Battery</label>
+                    <input id="battery" [(ngModel)]="device.battery" name="battery" placeholder="e.g. 3274 mAh" />
+                </div>
+                <div class="form-group">
+                    <label for="chargingSpeed">Charging Speed</label>
+                    <input id="chargingSpeed" [(ngModel)]="device.charging_speed" name="chargingSpeed"
+                        placeholder="e.g. 27W wired, 15W MagSafe" />
+                </div>
+                <div class="form-group">
+                    <label for="os">OS</label>
+                    <input id="os" [(ngModel)]="device.os" name="os" placeholder="e.g. iOS 17" />
+                </div>
+                <div class="form-group">
+                    <label for="rearCamera">Rear Camera</label>
+                    <input id="rearCamera" [(ngModel)]="device.rear_camera" name="rearCamera"
+                        placeholder="e.g. 48MP + 12MP + 12MP" />
+                </div>
+                <div class="form-group">
+                    <label for="frontCamera">Front Camera</label>
+                    <input id="frontCamera" [(ngModel)]="device.front_camera" name="frontCamera"
+                        placeholder="e.g. 12MP TrueDepth" />
+                </div>
+                <div class="form-group">
+                    <label for="connectivity">Connectivity</label>
+                    <input id="connectivity" [(ngModel)]="device.connectivity" name="connectivity"
+                        placeholder="e.g. 5G, Wi-Fi 6E, Bluetooth 5.3" />
+                </div>
+                <div class="form-group">
+                    <label for="weight">Weight</label>
+                    <input id="weight" [(ngModel)]="device.weight" name="weight" placeholder="e.g. 187g" />
+                </div>
+                <div class="form-group">
+                    <label for="dimensions">Dimensions</label>
+                    <input id="dimensions" [(ngModel)]="device.dimensions" name="dimensions"
+                        placeholder="e.g. 146.6 x 70.6 x 8.25 mm" />
+                </div>
+                <div class="form-group">
+                    <label for="waterResistance">Water Resistance</label>
+                    <input id="waterResistance" [(ngModel)]="device.water_resistance" name="waterResistance"
+                        placeholder="e.g. IP68" />
+                </div>
+                <div class="form-group">
+                    <label for="biometrics">Biometrics</label>
+                    <input id="biometrics" [(ngModel)]="device.biometrics" name="biometrics"
+                        placeholder="e.g. Face ID" />
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- ── Scores ── -->
+        <fieldset class="form-section">
+            <legend>Scores (out of 10)</legend>
+            <div class="grid-3">
+                <div class="form-group">
+                    <label for="overallScore">Overall</label>
+                    <input id="overallScore" type="number" min="0" max="10" step="0.1"
+                        [(ngModel)]="device.overall_score" name="overallScore" />
+                </div>
+                <div class="form-group">
+                    <label for="performanceScore">Performance</label>
+                    <input id="performanceScore" type="number" min="0" max="10" step="0.1"
+                        [(ngModel)]="device.performance_score" name="performanceScore" />
+                </div>
+                <div class="form-group">
+                    <label for="cameraScore">Camera</label>
+                    <input id="cameraScore" type="number" min="0" max="10" step="0.1" [(ngModel)]="device.camera_score"
+                        name="cameraScore" />
+                </div>
+                <div class="form-group">
+                    <label for="batteryScore">Battery</label>
+                    <input id="batteryScore" type="number" min="0" max="10" step="0.1"
+                        [(ngModel)]="device.battery_score" name="batteryScore" />
+                </div>
+                <div class="form-group">
+                    <label for="displayScore">Display</label>
+                    <input id="displayScore" type="number" min="0" max="10" step="0.1"
+                        [(ngModel)]="device.display_score" name="displayScore" />
+                </div>
+                <div class="form-group">
+                    <label for="valueScore">Value</label>
+                    <input id="valueScore" type="number" min="0" max="10" step="0.1" [(ngModel)]="device.value_score"
+                        name="valueScore" />
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- ── Review ── -->
+        <fieldset class="form-section">
+            <legend>Review</legend>
+            <div class="form-group">
+                <label for="reviewSummary">Review Summary</label>
+                <textarea id="reviewSummary" [(ngModel)]="device.review_summary" name="reviewSummary" rows="4"
+                    placeholder="Write a summary of the review..."></textarea>
+            </div>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="pros">Pros (one per line)</label>
+                    <textarea id="pros" [(ngModel)]="prosStr" name="pros" rows="4"
+                        placeholder="Great performance&#10;Amazing camera"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="cons">Cons (one per line)</label>
+                    <textarea id="cons" [(ngModel)]="consStr" name="cons" rows="4"
+                        placeholder="Expensive&#10;No charger in box"></textarea>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- ── Camera Samples ── -->
+        <fieldset class="form-section">
+            <legend>Camera Samples</legend>
+            <div class="form-group">
+                <label for="cameraSamples">Camera Sample URLs (one per line)</label>
+                <textarea id="cameraSamples" [(ngModel)]="cameraSamplesStr" name="cameraSamples" rows="4"
+                    placeholder="https://...&#10;https://..."></textarea>
+            </div>
+        </fieldset>
+
+        <!-- ── Submit ── -->
+        <div class="form-actions">
+            <a routerLink="/devices" class="btn-cancel">Cancel</a>
+            <button type="submit" class="btn-save" [disabled]="saving">
+                {{ saving ? 'Saving...' : (isEdit ? 'Update Device' : 'Create Device') }}
+            </button>
+        </div>
+    </form>
+    }
+</div>

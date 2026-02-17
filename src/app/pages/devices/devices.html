@@ -1,0 +1,61 @@
+<div class="devices-page">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Devices</h1>
+            <span class="page-subtitle">{{ devices.length }} devices</span>
+        </div>
+        <a routerLink="/devices/new" class="btn-primary">+ Add Device</a>
+    </div>
+
+    @if (loading) {
+    <div class="loading">Loading devices...</div>
+    }
+
+    @if (error) {
+    <div class="error-banner">{{ error }}</div>
+    }
+
+    @if (!loading && !error) {
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Score</th>
+                    <th>Featured</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (device of devices; track device.id) {
+                <tr>
+                    <td class="device-name">{{ device.name }}</td>
+                    <td>{{ device.brand }}</td>
+                    <td><span class="badge">{{ device.category }}</span></td>
+                    <td>${{ device.price }}</td>
+                    <td>
+                        <span class="score" [class.high]="device.overall_score >= 8"
+                            [class.mid]="device.overall_score >= 5 && device.overall_score < 8"
+                            [class.low]="device.overall_score < 5">
+                            {{ device.overall_score }}/10
+                        </span>
+                    </td>
+                    <td>{{ device.is_featured ? '⭐' : '—' }}</td>
+                    <td class="actions">
+                        <button class="btn-sm btn-edit" (click)="editDevice(device.id!)">Edit</button>
+                        <button class="btn-sm btn-delete" (click)="deleteDevice(device)">Delete</button>
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="7" class="empty-state">No devices found. Add your first device!</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+</div>

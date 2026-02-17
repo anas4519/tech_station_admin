@@ -1,0 +1,31 @@
+<nav class="sidebar-container">
+    <div class="sidebar-brand">
+        <span class="brand-icon">⚡</span>
+        <span class="brand-text">TechStation</span>
+    </div>
+
+    <ul class="nav-list">
+        <li class="nav-item" [class.active]="isActive('/dashboard')">
+            <a routerLink="/dashboard" class="nav-link">
+                <span class="icon">🏠</span>
+                <span class="label">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item" [class.active]="isActive('/devices')">
+            <a routerLink="/devices" class="nav-link">
+                <span class="icon">📱</span>
+                <span class="label">Devices</span>
+            </a>
+        </li>
+        <li class="nav-item" [class.active]="isActive('/categories')">
+            <a routerLink="/categories" class="nav-link">
+                <span class="icon">🏷️</span>
+                <span class="label">Categories</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="sidebar-footer">
+        <button class="btn-logout" (click)="logout()">🚪 Sign Out</button>
+    </div>
+</nav>
