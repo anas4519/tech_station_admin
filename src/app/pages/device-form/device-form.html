@@ -46,6 +46,12 @@
                     <input id="price" type="number" [(ngModel)]="device.price" name="price" placeholder="999" />
                 </div>
                 <div class="form-group">
+                    <label for="deviceModel">Device Model ID</label>
+                    <input id="deviceModel" [(ngModel)]="device.device_model" name="deviceModel"
+                        placeholder="e.g. Pixel 8 Pro, iPhone16,2" />
+                    <small class="hint">The model string reported by the physical device (Android model name or iOS machine ID)</small>
+                </div>
+                <div class="form-group">
                     <label for="releaseDate">Release Date</label>
                     <input id="releaseDate" [(ngModel)]="device.release_date" name="releaseDate"
                         placeholder="e.g. September 2024" />

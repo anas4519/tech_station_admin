@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SupabaseService, Device, Category } from '../../services/supabase.service';
@@ -66,6 +66,7 @@ export class DeviceForm implements OnInit {
     private supabase: SupabaseService,
     private route: ActivatedRoute,
     private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   async ngOnInit() {
@@ -87,6 +88,7 @@ export class DeviceForm implements OnInit {
         this.error = e.message;
       } finally {
         this.loading = false;
+        this.cdr.detectChanges();
       }
     }
   }
@@ -97,6 +99,8 @@ export class DeviceForm implements OnInit {
     } catch {
       // Fallback: categories table might not exist yet
       this.categories = [];
+    } finally {
+      this.cdr.detectChanges();
     }
   }
 
@@ -121,6 +125,7 @@ export class DeviceForm implements OnInit {
       this.error = e.message || 'Failed to save device';
     } finally {
       this.saving = false;
+      this.cdr.detectChanges();
     }
   }
 

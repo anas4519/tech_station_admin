@@ -12,6 +12,7 @@ export interface Device {
   release_date?: string;
   price: number;
   short_description?: string;
+  device_model?: string;
   // Specs
   processor?: string;
   ram?: string;
@@ -116,7 +117,7 @@ export class SupabaseService {
   }
 
   async updateDevice(id: string, device: Partial<Device>) {
-    const { created_at, updated_at, ...payload } = device as any;
+    const { id: _id, created_at, updated_at, ...payload } = device as any;
     const { data, error } = await this.supabase
       .from('devices')
       .update(payload)
