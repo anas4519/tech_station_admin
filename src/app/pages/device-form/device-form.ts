@@ -54,6 +54,7 @@ export class DeviceForm implements OnInit {
     pros: [],
     cons: [],
     is_featured: false,
+    affiliate_links: [],
   };
 
   // Temporary string fields for array inputs
@@ -61,6 +62,9 @@ export class DeviceForm implements OnInit {
   cameraSamplesStr = '';
   prosStr = '';
   consStr = '';
+
+  // Affiliate links managed as structured array
+  affiliateLinks: { name: string; url: string }[] = [];
 
   constructor(
     private supabase: SupabaseService,
@@ -84,6 +88,7 @@ export class DeviceForm implements OnInit {
         this.cameraSamplesStr = (d.camera_samples || []).join('\n');
         this.prosStr = (d.pros || []).join('\n');
         this.consStr = (d.cons || []).join('\n');
+        this.affiliateLinks = (d.affiliate_links || []).map(l => ({ name: l.name || '', url: l.url || '' }));
       } catch (e: any) {
         this.error = e.message;
       } finally {
@@ -113,6 +118,7 @@ export class DeviceForm implements OnInit {
     this.device.camera_samples = this.parseArray(this.cameraSamplesStr);
     this.device.pros = this.parseArray(this.prosStr);
     this.device.cons = this.parseArray(this.consStr);
+    this.device.affiliate_links = this.affiliateLinks.filter(l => l.name.trim() && l.url.trim());
 
     try {
       if (this.isEdit) {
@@ -134,5 +140,13 @@ export class DeviceForm implements OnInit {
       .split('\n')
       .map(s => s.trim())
       .filter(s => s.length > 0);
+  }
+
+  addAffiliateLink() {
+    this.affiliateLinks.push({ name: '', url: '' });
+  }
+
+  removeAffiliateLink(index: number) {
+    this.affiliateLinks.splice(index, 1);
   }
 }

@@ -40,6 +40,8 @@ export interface Device {
   value_score: number;
   // Camera samples
   camera_samples?: string[];
+  // Affiliate Links
+  affiliate_links?: { name: string; url: string }[];
   // Review
   review_summary?: string;
   pros?: string[];
