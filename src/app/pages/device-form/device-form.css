@@ -243,3 +243,108 @@
     background: #667eea;
     color: white;
 }
+
+/* ── Color Picker ── */
+.color-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.color-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 6px;
+    background: var(--card-bg, #2a2a3e);
+    border: 1px solid var(--border-color, #363652);
+    border-radius: 20px;
+    font-size: 0.82rem;
+    color: var(--text-primary, #e0e0e8);
+}
+
+.color-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.pill-remove {
+    background: none;
+    border: none;
+    color: var(--secondary-color, #9ca3af);
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0 2px;
+    line-height: 1;
+}
+
+.pill-remove:hover {
+    color: #ff6b6b;
+}
+
+.color-dropdown {
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--card-bg, #2a2a3e);
+    border: 1px solid var(--border-color, #363652);
+    border-radius: 8px;
+    margin-top: -8px;
+    margin-bottom: 8px;
+}
+
+.color-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 14px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--border-color, #363652);
+    color: var(--text-primary, #e0e0e8);
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-align: left;
+}
+
+.color-option:last-child {
+    border-bottom: none;
+}
+
+.color-option:hover:not(:disabled) {
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.color-option:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.color-option.selected {
+    background: rgba(102, 126, 234, 0.08);
+}
+
+.color-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+
+.color-option .check {
+    margin-left: auto;
+    color: #34c759;
+    font-weight: 700;
+}
+
+.color-no-match {
+    padding: 12px 14px;
+    color: var(--secondary-color, #9ca3af);
+    font-size: 0.85rem;
+    text-align: center;
+}

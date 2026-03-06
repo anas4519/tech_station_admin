@@ -236,6 +236,50 @@
             </div>
         </fieldset>
 
+        <!-- ── Available Colors ── -->
+        <fieldset class="form-section">
+            <legend>Available Colors</legend>
+            <p class="section-hint">Search and select the colors this device is available in.</p>
+
+            <!-- Selected colors pills -->
+            @if (selectedColors.length > 0) {
+            <div class="color-pills">
+                @for (color of selectedColors; track $index; let i = $index) {
+                <span class="color-pill">
+                    <span class="color-dot" [style.background-color]="getColorHex(color)"></span>
+                    {{ color }}
+                    <button type="button" class="pill-remove" (click)="removeColor(i)">✕</button>
+                </span>
+                }
+            </div>
+            }
+
+            <!-- Search input -->
+            <div class="form-group">
+                <input [(ngModel)]="colorSearch" name="colorSearch" placeholder="Search colors (e.g. Blue, Titanium)..."
+                    autocomplete="off" />
+            </div>
+
+            <!-- Filtered color list -->
+            @if (colorSearch.trim()) {
+            <div class="color-dropdown">
+                @for (color of filteredColors; track color.name) {
+                <button type="button" class="color-option" [class.selected]="isColorSelected(color.name)"
+                    (click)="addColor(color.name)" [disabled]="isColorSelected(color.name)">
+                    <span class="color-swatch" [style.background-color]="color.hex"></span>
+                    {{ color.name }}
+                    @if (isColorSelected(color.name)) {
+                    <span class="check">✓</span>
+                    }
+                </button>
+                }
+                @if (filteredColors.length === 0) {
+                <div class="color-no-match">No matching colors found</div>
+                }
+            </div>
+            }
+        </fieldset>
+
         <!-- ── Affiliate Links ── -->
         <fieldset class="form-section">
             <legend>Affiliate Links</legend>

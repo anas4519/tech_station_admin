@@ -42,6 +42,7 @@ export interface Device {
   camera_samples?: string[];
   // Affiliate Links
   affiliate_links?: { name: string; url: string }[];
+  available_colors?: string[];
   // Review
   review_summary?: string;
   pros?: string[];
